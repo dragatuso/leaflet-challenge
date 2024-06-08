@@ -27,8 +27,46 @@ function createMap(earthquakes) {
     L.control.layers(baseMaps, overlayMaps, {
       collapsed: false
     }).addTo(map);
+
+    //create legend
+    var legend = L.control({position: "bottomright"});
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend"),
+        depth = [-10, 10, 30, 50, 70, 90];
+
+        div.innerHTML += "<h3 style='text-align: center'>Depth</h3>"
+
+        for (var i = 0; i < depth.length; i++) {
+        div.innerHTML +=
+        '<i style="background:' + mapColor(depth[i] + 1) + '"></i> ' + depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
+        }
+        return div;
+    };
+    legend.addTo(map)
   }
-  
+
+  function mapColor(depth) {
+    if(depth > 90) {
+        return "red";
+    }
+    else if(depth > 70) {
+        return "orangered";
+    }
+    else if(depth > 50) {
+        return "orange";
+    }
+    else if(depth > 30) {
+        return "yellow";
+    }
+    else if(depth > 10) {
+        return "lightgreen";
+    }
+    else {
+        return "green";
+    }
+}
+
+
   function createMarkers(response) {
 
     // Pull the earthquakes.
@@ -42,10 +80,16 @@ function createMap(earthquakes) {
       let earthquake = earthquakes[index];
   
       // For each earthquake data, create a marker, and bind a popup with the earthquake's additional information.
-      let marker = L.marker([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]])
+      let marker = L.circle([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]],{
+        stroke: false,
+        fillOpacity: (earthquake.geometry.coordinates[2]/100)*2.5,
+        fillColor: mapColor(earthquake.geometry.coordinates[2]),
+        radius: earthquake.properties.mag*15000
+
+      })
         .bindPopup("<h3>" + earthquake.properties.title + "</h3>");
 
-        console.log(marker);
+        
   
       // Add the marker to the markers array.
       markers.push(marker);
