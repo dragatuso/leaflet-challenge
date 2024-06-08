@@ -1,1 +1,2 @@
 # leaflet-challenge
+This repository includes the Part 1 of the Leaflet Challenge from the Data Analytics Bootcamp, including the index file, the logic.js file with the code and the style.css file. Most of the code was developed based on the last exercise that we reviewed and completed in the third class of Bootcamp's module 15. I also looked for information online and correct part of the code with Copilot.
