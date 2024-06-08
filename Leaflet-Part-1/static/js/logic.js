@@ -87,7 +87,7 @@ function createMap(earthquakes) {
         radius: earthquake.properties.mag*15000
 
       })
-        .bindPopup("<h3>" + earthquake.properties.title + "</h3>");
+        .bindPopup("<h3>" + earthquake.properties.title + " " + "Depth: " + earthquake.geometry.coordinates[2] + "</h3>");
 
         
   
